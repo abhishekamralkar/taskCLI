@@ -4,10 +4,11 @@ FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
-COPY go.mod .
+COPY go.mod go.sum* ./
 COPY main.go .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o taskCli .
+RUN go mod download && \
+    CGO_ENABLED=0 GOOS=linux go build -o taskCli .
 
 # Stage 2: Runtime
 FROM alpine:latest

@@ -38,17 +38,17 @@ fmt:
 
 docker-build:
 	@echo "Building Docker image..."
-	@docker build -t $(DOCKER_IMAGE) .
+	@sudo docker build -t $(DOCKER_IMAGE) .
 	@echo "✓ Docker image built: $(DOCKER_IMAGE)"
 
 docker-run: docker-build
 	@echo "Running Docker container..."
-	@docker run --name $(DOCKER_CONTAINER) --rm $(DOCKER_IMAGE)
+	@sudo docker run --name $(DOCKER_CONTAINER) --rm $(DOCKER_IMAGE)
 
 docker-clean:
 	@echo "Cleaning Docker artifacts..."
-	@docker rm -f $(DOCKER_CONTAINER) 2>/dev/null || true
-	@docker rmi $(DOCKER_IMAGE) 2>/dev/null || true
+	@sudo docker rm -f $(DOCKER_CONTAINER) 2>/dev/null || true
+	@sudo docker rmi $(DOCKER_IMAGE) 2>/dev/null || true
 	@echo "✓ Docker cleanup complete"
 
 test:
@@ -57,8 +57,8 @@ test:
 
 trivy-scan: docker-build
 	@echo "Running Trivy scan on $(DOCKER_IMAGE)..."
-	@trivy image --format json --output $(SCAN_REPORT) $(DOCKER_IMAGE)
+	@sudo trivy image --format json --output $(SCAN_REPORT) $(DOCKER_IMAGE)
 	@echo "✓ Scan complete. Report saved to $(SCAN_REPORT)"
 	@echo ""
 	@echo "Vulnerability Summary:"
-	@trivy image --severity CRITICAL,HIGH $(DOCKER_IMAGE)
+	@sudo trivy image --severity CRITICAL,HIGH $(DOCKER_IMAGE)

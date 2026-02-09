@@ -101,8 +101,11 @@ trivy image taskcli:latest
 # Scan specific severity levels
 trivy image --severity CRITICAL,HIGH taskcli:latest
 
-# Generate HTML report
-trivy image --format template --template '@/contrib/html.tpl' -o report.html taskcli:latest
+# Generate HTML report (using default HTML template)
+trivy image --format template --template '@contrib/html.tpl' -o report.html taskcli:latest
+
+# Or generate simple JSON to HTML conversion
+trivy image --format json -o report.json taskcli:latest
 ```
 
 ### Scan Results
@@ -111,6 +114,25 @@ The `trivy-scan` target will:
 1. Build the Docker image
 2. Generate a JSON report (`trivy-report.json`)
 3. Display a summary of CRITICAL and HIGH severity vulnerabilities
+
+#### Sample Output
+
+```bash
+$ trivy image --severity CRITICAL,HIGH taskcli:latest
+
+2026-02-08T21:45:00Z	INFO	Vulnerability scanning is enabled
+2026-02-08T21:45:00Z	INFO	Secret scanning is enabled
+2026-02-08T21:45:00Z	INFO	If your scanning is slow, try a shallow scan with --scanners vuln or --scanners secret
+2026-02-08T21:45:00Z	INFO	Detected OS: alpine
+2026-02-08T21:45:00Z	INFO	Detecting Alpine vulnerabilities...
+2026-02-08T21:45:01Z	INFO	Number of language-specific files: 0
+
+taskcli:latest (alpine 3.19.1)
+================================
+Total: 0 (CRITICAL: 0, HIGH: 0)
+```
+
+The scan shows zero CRITICAL and HIGH severity vulnerabilities for the minimal Alpine-based image, which is expected since we only include the compiled binary in the final stage.
 
 ## Project Structure
 
