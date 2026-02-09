@@ -1,10 +1,12 @@
-.PHONY: build run clean docker-build docker-run docker-clean help fmt test trivy-scan
+.PHONY: build run clean docker-build docker-run docker-clean help fmt test trivy-scan sbom
 
 # Variables
 BINARY_NAME=taskCli
 DOCKER_IMAGE=taskcli:latest
 DOCKER_CONTAINER=taskcli-container
 SCAN_REPORT=trivy-report.json
+SBOM_CYCLONEDX=sbom-cyclonedx.json
+SBOM_SPDX=sbom-spdx.json
 
 help:
 	@echo "Available targets:"
@@ -16,6 +18,7 @@ help:
 	@echo "  docker-run    - Run Docker container"
 	@echo "  docker-clean  - Remove Docker image and container"
 	@echo "  trivy-scan    - Scan Docker image for vulnerabilities"
+	@echo "  sbom          - Generate SBOM (CycloneDX and SPDX formats)"
 	@echo "  test          - Run tests (if available)"
 
 build:
@@ -61,4 +64,11 @@ trivy-scan: docker-build
 	@echo "✓ Scan complete. Report saved to $(SCAN_REPORT)"
 	@echo ""
 	@echo "Vulnerability Summary:"
+
+sbom: docker-build
+	@echo "Generating SBOM for $(DOCKER_IMAGE)..."
+	@sudo trivy image --format cyclonedx --output $(SBOM_CYCLONEDX) $(DOCKER_IMAGE)
+	@echo "✓ CycloneDX SBOM generated: $(SBOM_CYCLONEDX)"
+	@sudo trivy image --format spdx-json --output $(SBOM_SPDX) $(DOCKER_IMAGE)
+	@echo "✓ SPDX SBOM generated: $(SBOM_SPDX)"
 	@sudo trivy image --severity CRITICAL,HIGH $(DOCKER_IMAGE)

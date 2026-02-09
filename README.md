@@ -134,6 +134,47 @@ Total: 0 (CRITICAL: 0, HIGH: 0)
 
 The scan shows zero CRITICAL and HIGH severity vulnerabilities for the minimal Alpine-based image, which is expected since we only include the compiled binary in the final stage.
 
+### Generating SBOM (Software Bill of Materials)
+
+Trivy can also generate a Software Bill of Materials for supply chain security and compliance.
+
+```bash
+# Generate SBOM in CycloneDX format (JSON)
+trivy image --format cyclonedx --output sbom.json taskcli:latest
+
+# Generate SBOM in SPDX format (JSON)
+trivy image --format spdx-json --output sbom-spdx.json taskcli:latest
+
+# Generate SBOM in SPDX format (text)
+trivy image --format spdx taskcli:latest
+```
+
+#### Sample SBOM Output (CycloneDX)
+
+```json
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-02-08T21:45:00Z",
+    "component": {
+      "bom-ref": "docker.io/taskcli:latest@sha256:abc123",
+      "type": "application",
+      "name": "taskcli:latest",
+      "version": "latest"
+    }
+  },
+  "components": []
+}
+```
+
+The SBOM output is particularly useful for:
+- **Supply chain security** - Track all dependencies in your image
+- **Compliance** - Meet regulatory requirements (SLSA, etc.)
+- **Vulnerability tracking** - Use with tools like Dependency-Track
+- **License management** - Identify all licenses in use
+
 ## Project Structure
 
 ```
@@ -158,6 +199,7 @@ taskCli/
 | `make docker-run` | Run in Docker container |
 | `make docker-clean` | Remove Docker image/container |
 | `make trivy-scan` | Scan image for vulnerabilities |
+| `make sbom` | Generate SBOM (Software Bill of Materials) |
 
 ## Requirements
 
