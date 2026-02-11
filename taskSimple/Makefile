@@ -1,7 +1,7 @@
 .PHONY: build run clean docker-build docker-run docker-clean help fmt test trivy-scan sbom
 
 # Variables
-BINARY_NAME=taskCli
+BINARY_NAME=taskcli
 DOCKER_IMAGE=taskcli:latest
 DOCKER_CONTAINER=taskcli-container
 SCAN_REPORT=trivy-report.json

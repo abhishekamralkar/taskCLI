@@ -17,16 +17,16 @@ A simple command-line todo task manager written in Go with Docker support and se
 
 ```bash
 # List all tasks
-./taskCli -list
+./taskcli -list
 
 # Add a new task
-./taskCli -add "Buy milk"
+./taskcli -add "Buy milk"
 
 # Mark a task as done
-./taskCli -done 1
+./taskcli -done 1
 
 # Delete a task
-./taskCli -delete 1
+./taskcli -delete 1
 ```
 
 ### Using Make
