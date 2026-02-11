@@ -117,8 +117,8 @@ go build -o taskcli
 |---------|-----------|------------|
 | **Persistence** | In-memory | JSON file |
 | **Data Survives Restart** | ❌ No | ✅ Yes |
-| **Docker Support** | ✅ Yes | ❌ No |
-| **Security Scanning** | ✅ Trivy | ❌ No |
+| **Docker Support** | ✅ Yes | ✅ Yes |
+| **Security Scanning** | ✅ Trivy | ✅ Yes |
 | **Use Case** | Learning/Testing | Production Tasks |
 | **Build Tool** | Make | Go build |
 
