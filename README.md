@@ -119,8 +119,7 @@ go build -o taskcli
 | **Data Survives Restart** | ❌ No | ✅ Yes |
 | **Docker Support** | ✅ Yes | ✅ Yes |
 | **Security Scanning** | ✅ Trivy | ✅ Yes |
-| **Use Case** | Learning/Testing | Production Tasks |
-| **Build Tool** | Make | Go build |
+| **Build Tool** | Make | Make |
 
 ---
 
@@ -136,7 +135,9 @@ taskCli/
 │   └── README.md
 ├── taskStorage/          # File-based persistent CLI
 │   ├── main.go
-│   ├── db.json
+    ├── db.json
+│   ├── Dockerfile
+│   ├── Makefile
 │   └── README.md
 ├── go.mod
 ├── LICENSE
