@@ -8,7 +8,7 @@
 *.so
 *.dylib
 taskcli
-
+todo*
 # Test binary, built with `go test -c`
 *.test
 
