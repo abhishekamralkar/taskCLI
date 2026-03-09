@@ -1,6 +1,6 @@
 # Multi-stage build
 # Stage 1: Build
-FROM golang:1.25-alpine AS builder
+FROM golang:1.25 AS builder
 
 WORKDIR /app
 
@@ -11,9 +11,9 @@ RUN go mod download && \
     CGO_ENABLED=0 GOOS=linux go build -o taskCli .
 
 # Stage 2: Runtime
-FROM alpine:latest
+FROM ubuntu:latest
 
-RUN apk --no-cache add ca-certificates
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /root/
 
